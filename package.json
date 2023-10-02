@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon ./build/index.js",
+    "build": "tsc && copyfiles -u 1 src/**/*.html build/src",
+    "copy-html": "copyfiles -u 1 src/**/*.html build/src",
+    "dev": "nodemon ./build/src/index.js",
     "start-dev": "tsc"
-  },
+  }, 
   "keywords": [],
   "author": "",
   "license": "ISC",
