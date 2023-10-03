@@ -108,7 +108,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.html",
+    "src/public/**/*.html",
+    "src/public/**/*.ejs",
     "src/index.ts",
   ]
 }

@@ -4,25 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && copyfiles -u 1 src/**/*.html build/src",
-    "copy-html": "copyfiles -u 1 src/**/*.html build/src",
+    "build": "tsc && copyfiles -u 1 src/public/**/*.html src/public/**/*.ejs build/src",
     "dev": "nodemon ./build/src/index.js",
     "start-dev": "tsc"
-  }, 
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.18",
+    "@types/express-session": "^1.17.8",
     "@types/node": "^20.8.0",
     "@types/pg": "^8.10.3",
+    "copyfiles": "^2.4.1",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "pg": "^8.11.3"
   }
 }
