@@ -51,15 +51,29 @@ app.get('/customerHome', (req, res) => {
   }
 });
 
+app.get('/adminHome', (req, res) => {
+  const urlAdminId = req.query.admin;
+  
+  if (req.session.userId && req.session.userId.toString() === urlAdminId) {
+    const user = {
+      userName: req.session.userName,
+      userEmail: req.session.userEmail
+    };
+    res.render('adminHome', { user });
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.post('/customerAdd', async (req, res) => {
   const { name, surname, email, password } = req.body;
 
   try {
-      console.log('INSERT INTO customers (name, surname, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [name, surname, email, password]);
+      console.log('INSERT INTO customers (name, surname, email, password, user_type) VALUES ($1, $2, $3, $4 , $5) RETURNING *', [name, surname, email, password, 'customer']);
 
       const result = await postgresClient.query(
-          'INSERT INTO customers (name, surname, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
-          [name, surname, email, password]
+          'INSERT INTO customers (name, surname, email, password, user_type) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+          [name, surname, email, password, 'customer']
       );
 
       console.log('Result:', result.rows);
@@ -77,20 +91,34 @@ app.post('/customerAdd', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    const result = await postgresClient.query(
-      'SELECT * FROM customers WHERE email = $1 AND password = $2',
-      [email, password]
-    );
+    try {
+      const result = await postgresClient.query(
+        `SELECT id, name, email, user_type
+        FROM (
+            SELECT id, name, email, 'customer' AS user_type, password FROM customers
+            UNION ALL
+            SELECT id, name, email, 'admin' AS user_type, password FROM admins
+        ) AS combined_users
+        WHERE email = $1 AND password = $2`,
+        [email, password]
+      );
 
     if (result.rows.length > 0) {
-      const customer = result.rows[0];
+      const user = result.rows[0];
 
-      req.session.userId = customer.id;
-      req.session.userEmail = customer.email;
-      req.session.userName = customer.name;
+      req.session.userId = user.id;
+      req.session.userEmail = user.email;
+      req.session.userName = user.name;
 
-      res.redirect(`/customerHome/?user=${customer.id}`);
+      console.log('Login Attempt:', email, password);
+
+      if (user.user_type === 'customer') {
+        res.redirect(`/customerHome/?user=${user.id}`);
+      } else if (user.user_type === 'admin') {
+        res.redirect(`/adminHome/?admin=${user.id}`);
+      } else {
+        res.redirect('/');
+      }
     } else {
       res.redirect('/');
     }
@@ -99,6 +127,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 
