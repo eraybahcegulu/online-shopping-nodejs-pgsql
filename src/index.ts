@@ -33,6 +33,19 @@ app.get('/customerAdd', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/html', 'customerAdd.html'));
 });
 
+app.get('/productAdd', async (req, res) => {
+  try {
+
+    const result = await postgresClient.query('SELECT * FROM product_types');
+
+    console.log('Result:', result.rows);
+    res.render('productAdd', { productTypes: result.rows });
+  } catch (error) {
+    console.error('Error fetching product types:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/html', 'login.html'));
 });
@@ -81,6 +94,28 @@ app.post('/customerAdd', async (req, res) => {
       const newCustomer = result.rows[0];
 
       res.json({ newCustomer });
+  } catch (error) {
+      console.error('Error registering customer:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/productAdd', async (req, res) => {
+  const { type, name, price, description } = req.body;
+
+  try {
+      console.log('INSERT INTO products (type, name, price, description) VALUES ($1, $2, $3, $4) RETURNING *', [type, name, price, description]);
+
+      const result = await postgresClient.query(
+          'INSERT INTO products (type, name, price, description) VALUES ($1, $2, $3, $4) RETURNING *',
+          [type, name, price, description]
+      );
+
+      console.log('Result:', result.rows);
+
+      const newProduct = result.rows[0];
+
+      res.json({ newProduct });
   } catch (error) {
       console.error('Error registering customer:', error);
       res.status(500).json({ error: 'Internal Server Error' });
