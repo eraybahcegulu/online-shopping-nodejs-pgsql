@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && copyfiles -u 1 src/public/**/*.html src/public/**/*.ejs build/src",
+    "build": "tsc && copyfiles -u 1 src/public/**/*.html src/public/**/*.ejs src/public/**/*.css build/src",
     "dev": "nodemon ./build/src/index.js",
     "start-dev": "tsc"
   },

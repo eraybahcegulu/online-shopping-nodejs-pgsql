@@ -110,6 +110,7 @@
     "src/**/*.ts",
     "src/public/**/*.html",
     "src/public/**/*.ejs",
+    "src/public/**/*.css",
     "src/index.ts",
   ]
 }

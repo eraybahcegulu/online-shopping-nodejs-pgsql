@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body style="font-family: 'Electrolize', sans-serif;">
+
+<div class="container mt-5">
+    <table class="table table-striped table-bordered text-center">
+        <thead class="table-dark">  
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody" >
+            <% products.forEach(product => { %>
+                <tr>
+                    <td class="align-middle"><%= product.id %></td>
+                    <td class="align-middle"><%= product.name %></td>
+                    <td class="align-middle"><%= product.type %></td>
+                    <td class="align-middle"><%= product.price %></td>
+                    <td class="align-middle"><%= product.description %></td>
+                    <td class="align-middle">
+                        <div class="btn-group" role="group" style="display:flex; justify-content:space-between">
+                            <button type="button" class="btn btn-primary btn-block btn-sm" onclick="productUpdate('<%=product.id%>')"> <i class="fa-solid fa-pen-to-square"></i> Update</button>
+                            <button type="button" class="btn btn-danger btn-block btn-sm" onclick="confirmDeleteProduct('<%=product.id%>' , '<%=product.name%>')"> <i class="fa-solid fa-trash"></i> Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <a href="/adminHome" class="btn btn-secondary">Back to Admin Home</a>
+</div>
+
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Product: <span id="productNameToDelete"></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" onclick="deleteProductConfirmed()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function productUpdate(productId) {
+    window.location.href = `/productUpdate/${productId}`;
+}
+    function confirmDeleteProduct(productId, productName) {
+        productToDeleteId = productId;
+        productToDeleteName = productName;
+
+        document.getElementById('productNameToDelete').innerText = productName;
+        $('#deleteConfirmationModal').modal('show');
+    }
+
+    function deleteProductConfirmed() {
+        fetch(`/deleteProduct/${productToDeleteId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Product deleted:', data.message);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting product:', error);
+        });
+        $('#deleteConfirmationModal').modal('hide');
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</body>
+</html>
