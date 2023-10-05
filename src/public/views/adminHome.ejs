@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,46 +9,57 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body style="font-family: 'Electrolize', sans-serif;">
 
+<body style="font-family: 'Electrolize', sans-serif;">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-primary text-white text-center">
-                        <h4 class="mb-0">Admin Home</h4>
+                        <h4 class="mb-0">ADMIN HOME</h4>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Welcome, <%= user.userName %>!</h5>
-                        <p class="card-text"><%= user.userEmail %></p>
+                        <h5 class="card-title">Welcome <%= user.userName %>
+                        </h5>
+                        <p class="card-text">
+                            <%= user.userEmail %>
+                        </p>
+                        <div>
+                            <a href="/logout" class="btn btn-outline-danger btn-block">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-md-6 mb-2">
-                                <a href="/" class="btn btn-danger btn-block">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                                </a>
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="/customerAdd" class="btn btn-danger btn-block">
+
+                            <div class="col-md-4 mb-2">
+                                <a href="/customerAdd" class="btn btn-outline-secondary btn-block">
                                     <i class="fa-solid fa-user-plus"></i> Add Customer
                                 </a>
                             </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="/productTypeAdd" class="btn btn-danger btn-block">
+                            <div class="col-md-4 mb-2">
+                                <a href="/productTypeAdd" class="btn btn-outline-success btn-block">
                                     <i class="fa-solid fa-star"></i> Add Product Type
                                 </a>
                             </div>
-                            <div class="col-md-6 mb-2">
-                                <a href="/productAdd" class="btn btn-danger btn-block">
+                            <div class="col-md-4 mb-2">
+                                <a href="/productAdd" class="btn btn-outline-primary btn-block">
                                     <i class="fa-solid fa-box"></i> Add Product
                                 </a>
                             </div>
-                            <div class="col-md-12">
-                                <a href="/adminProducts" class="btn btn-danger btn-block">
+                            <div class="col-md-4 mb-2">
+                                <a href="/adminProducts" class="btn btn-outline-warning btn-block">
                                     <i class="fa-regular fa-pen-to-square"></i> Edit Products
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/viewOrders" class="btn btn-outline-info btn-block">
+                                    <i class="fa-regular fa-eye"></i> View Orders
                                 </a>
                             </div>
                         </div>
@@ -57,6 +69,8 @@
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>

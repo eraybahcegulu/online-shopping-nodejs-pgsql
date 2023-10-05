@@ -14,7 +14,7 @@
 <body style="font-family: 'Electrolize', sans-serif;">
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
                         Login
@@ -22,8 +22,7 @@
                     <div class="card-body">
                         <form action="/login" method="post">
                             <div class="mb-3">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                             </div>
                             <div class="mb-3">
                                 <input type="password" class="form-control" id="password" name="password"
@@ -35,20 +34,22 @@
                         </form>
                         <div class="container mt-5">
                             <% if (typeof error !=='undefined' ) { %>
-                                <div class="alert alert-danger alert-dismissible fade show alert-sm" role="alert"><strong>
+                                <div class="alert alert-danger alert-dismissible fade show alert-sm" role="alert">
+                                    <strong>
                                         <%= error %>
-                                    </strong><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </strong><button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
                                 <% } %>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
-    
+
 </body>
 
 </html>
