@@ -44,16 +44,15 @@ app.get('/', (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const result = await postgresClient.query(
       `SELECT id, name, email, user_type
-        FROM (
-            SELECT id, name, email, 'customer' AS user_type, password FROM customers
-            UNION ALL
-            SELECT id, name, email, 'admin' AS user_type, password FROM admins
-        ) AS combined_users
-        WHERE email = $1 AND password = $2`,
+      FROM (
+          SELECT id, name, email, 'customer' AS user_type, password FROM customers
+          UNION ALL
+          SELECT id, name, email, 'admin' AS user_type, password FROM admins
+      ) AS combined_users
+      WHERE email = $1 AND password = $2`,
       [email, password]
     );
 
@@ -67,9 +66,9 @@ app.post('/login', async (req, res) => {
       console.log('Login Attempt:', email, password);
 
       if (user.user_type === 'customer') {
-        res.redirect(`/customerHome/?user=${user.id}`);
+        res.redirect('/customerHome');
       } else if (user.user_type === 'admin') {
-        res.redirect(`/adminHome/?admin=${user.id}`);
+        res.redirect('/adminHome');
       } else {
         res.render('login', { error: 'Invalid email or password' });
       }
@@ -84,6 +83,9 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/productAdd', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
   try {
     const resultProductTypes = await postgresClient.query('SELECT * FROM product_types');
     const resultProducts = await postgresClient.query('SELECT * FROM products');
@@ -96,8 +98,17 @@ app.get('/productAdd', async (req, res) => {
 });
 
 app.get('/customerAdd', async (req, res) => {
-  const resultCustomers = await postgresClient.query('SELECT * FROM customers');
-  res.render('customerAdd', { customers: resultCustomers.rows });
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
+  try {
+    const resultCustomers = await postgresClient.query('SELECT * FROM customers');
+    res.render('customerAdd', { customers: resultCustomers.rows });
+  } catch (error) {
+    console.error('Error fetching customers:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 app.get('/productTypeAdd', async (req, res) => {
@@ -116,9 +127,9 @@ app.get('/productTypeAdd', async (req, res) => {
 
 
 app.get('/customerHome', async (req, res) => {
-  const urlUserId = req.query.user;
-
-  if (req.session.userId && req.session.userId.toString() === urlUserId) {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
     try {
       const result = await postgresClient.query('SELECT id, type, name, price, description FROM products');
       const products = result.rows;
@@ -135,35 +146,35 @@ app.get('/customerHome', async (req, res) => {
       const orderResult = await postgresClient.query('SELECT * FROM orders WHERE customer_id = $1', [user.userId]);
       const ordersItems = orderResult.rows;
 
-
       res.render('customerHome', { user, products, cartItems, cartItemCount: cartItems.length, ordersItems, orderItemCount: ordersItems.length });
     } catch (error) {
       console.error('Error fetching product details:', error);
       res.status(500).send('Internal Server Error');
     }
-  } else {
-    res.redirect('/');
-  }
+
 });
 
 app.get('/adminHome', (req, res) => {
-  const urlAdminId = req.query.admin;
-
-  if (req.session.userId && req.session.userId.toString() === urlAdminId) {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
     const user = {
+      userId: req.session.userId,
       userName: req.session.userName,
       userEmail: req.session.userEmail
     };
-    res.render('adminHome', { user, urlAdminId });
-  } else {
-    res.redirect('/');
-  }
+    res.render('adminHome', { user });
+
 });
+
 
 
 
 
 app.get('/productUpdate/:id', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
   const productId = req.params.id;
   const urlAdminId = req.query.admin;
 
@@ -186,6 +197,9 @@ app.get('/productUpdate/:id', async (req, res) => {
 });
 
 app.get('/getCustomers', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
   try {
     const result = await postgresClient.query('SELECT * FROM customers');
     const customers = result.rows;
@@ -199,6 +213,9 @@ app.get('/getCustomers', async (req, res) => {
 
 
 app.patch('/updateProduct/:id', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
 
   const productId = req.params.id;
   const { name, productType, price, description } = req.body;
@@ -231,6 +248,9 @@ app.patch('/updateProduct/:id', async (req, res) => {
 
 
 app.delete('/deleteProduct/:id', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
   const productId = req.params.id;
 
   try {
@@ -249,6 +269,9 @@ app.delete('/deleteProduct/:id', async (req, res) => {
 });
 
 app.get('/adminProducts', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
   try {
     const urlAdminId = req.query.admin;
     const result = await postgresClient.query('SELECT id, type, name, price, description FROM products');
@@ -262,24 +285,24 @@ app.get('/adminProducts', async (req, res) => {
 });
 
 app.post('/customerAdd', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const { name, surname, email, password } = req.body;
 
   try {
-    console.log('INSERT INTO customers (name, surname, email, password, user_type) VALUES ($1, $2, $3, $4 , $5) RETURNING *', [name, surname, email, password, 'customer']);
-
     const result = await postgresClient.query(
       'INSERT INTO customers (name, surname, email, password, user_type) VALUES ($1, $2, $3, $4, $5) RETURNING *',
       [name, surname, email, password, 'customer']
     );
-
-    console.log('Result:', result.rows);
 
     const newCustomer = result.rows[0];
 
     res.json({ newCustomer });
   } catch (error: any) {
     if (error.code === '23505') {
-      res.json({ error: 'This email address is already registered' });
+      res.status(400).json({ error: 'This email address is already registered' });
     } else {
       console.error('error:', error);
       res.status(500).json({ error: 'error' });
@@ -288,6 +311,12 @@ app.post('/customerAdd', async (req, res) => {
 });
 
 app.post('/productAdd', async (req, res) => {
+
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
+
   const { type, name, price, description } = req.body;
 
   try {
@@ -310,6 +339,11 @@ app.post('/productAdd', async (req, res) => {
 });
 
 app.post('/productTypeAdd', async (req, res) => {
+
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const { type } = req.body;
 
   try {
@@ -327,6 +361,11 @@ app.post('/productTypeAdd', async (req, res) => {
 
 
 app.post('/addCart', async (req, res) => {
+
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const { productId } = req.body;
   const userId = req.session.userId;
   try {
@@ -354,17 +393,31 @@ app.post('/addCart', async (req, res) => {
 });
 
 app.get('/cart', async (req, res) => {
-  const userId = req.session.userId;
-  const userName = req.session.userName;
-  const userEmail = req.session.userEmail;
+  
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+    const userId = req.session.userId;
+    const userName = req.session.userName;
+    const userEmail = req.session.userEmail;
 
-  const result = await postgresClient.query('SELECT * FROM carts WHERE customer_id = $1', [userId]);
-  const cartItems = result.rows;
+    try {
+      const result = await postgresClient.query('SELECT * FROM carts WHERE customer_id = $1', [userId]);
+      const cartItems = result.rows;
 
-  res.render('customerCart', { userId, userName, cartItems, userEmail });
+      res.render('customerCart', { userId, userName, cartItems, userEmail });
+    } catch (error) {
+      console.error('Error fetching cart details:', error);
+      res.status(500).send('Internal Server Error');
+    }
+
 });
 
 app.post('/order', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const userId = req.session.userId;
   const userEmail = req.session.userEmail;
   const userName = req.session.userName;
@@ -403,30 +456,39 @@ app.post('/order', async (req, res) => {
 });
 
 app.get('/myOrders', async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const ordersQuery = await postgresClient.query('SELECT * FROM orders WHERE customer_id = $1', [userId]);
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+    try {
+      const userId = req.session.userId;
+      const ordersQuery = await postgresClient.query('SELECT * FROM orders WHERE customer_id = $1', [userId]);
 
-    const orders = [];
-    for (const order of ordersQuery.rows) {
-      const orderItemsQuery = await postgresClient.query('SELECT * FROM order_items WHERE order_id = $1', [order.id]);
-      const orderItems = orderItemsQuery.rows;
+      const orders = [];
+      for (const order of ordersQuery.rows) {
+        const orderItemsQuery = await postgresClient.query('SELECT * FROM order_items WHERE order_id = $1', [order.id]);
+        const orderItems = orderItemsQuery.rows;
 
-      orders.push({
-        ...order,
-        items: orderItems,
-      });
+        orders.push({
+          ...order,
+          items: orderItems,
+        });
+      }
+
+      res.render('customerOrder', { orders });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
 
-    res.render('customerOrder', { orders });
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 });
 
 
+
 app.get('/viewOrders', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   try {
     const ordersQuery = await postgresClient.query('SELECT * FROM orders');
     const orderDetails = await postgresClient.query('SELECT * FROM order_items');
@@ -456,6 +518,10 @@ app.get('/viewOrders', async (req, res) => {
 
 
 app.post('/removeCart', async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const { cartId } = req.body;
   const userId = req.session.userId;
 
@@ -484,6 +550,11 @@ app.post('/removeCart', async (req, res) => {
 });
 
 app.post('/removeOrder', async (req, res) => {
+
+  if (!req.session.userId) {
+    return res.redirect('/');
+  }
+
   const { orderId } = req.body;
 
 
