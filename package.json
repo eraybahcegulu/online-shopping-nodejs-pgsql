@@ -2,10 +2,10 @@
   "name": "pg-express-rest-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "build": "tsc && copyfiles -u 1 src/public/**/*.html src/public/**/*.ejs src/public/**/*.css build/src",
-    "dev": "nodemon ./build/src/index.js",
+    "build": "tsc && copyfiles -u 1 src/**/*.html src/**/*.ejs src/**/*.css build/src",
+    "dev": "nodemon ./build/src/app.js",
     "start-dev": "tsc"
   },
   "keywords": [],
