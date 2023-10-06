@@ -114,12 +114,10 @@ Kullanıcı arayüzünde fonksiyonlar sonucu gerekli geri bildirimlerin verilmes
 
 Projenin Views katmanında Bootstrap kullanıldı.
 
-Kullanılan teknolojiler
+Kullanılan Teknolojiler
 -TypeScript
--NodeJS
--ExpressJS
+-NodeJS ExpressJS
 -PostgreSQL
--GitHub
 -Bootstrap
--Postman ile GET SET istekleri
+-GitHub
 */
