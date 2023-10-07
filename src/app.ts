@@ -118,11 +118,11 @@ Kullanılan Teknolojiler
 -TypeScript
 -NodeJS ExpressJS
 -PostgreSQL
+-EJS
 -Bootstrap
--GitHub
 
 
-1) edit .env
+1) Edit .env file
 
   DB_CONNECTION_STRING = postgresql://username:password@host:port/dbname
 
