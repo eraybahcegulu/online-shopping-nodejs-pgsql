@@ -93,7 +93,7 @@ INSERT INTO admins (email, name, password, user_type)
 VALUES ('admin@admin', 'admin', 'admin', 'admin');
 ```
 
-1. Packages, build and dev
+3. Packages, build and dev
 
 ```
 - npm install
@@ -101,7 +101,7 @@ VALUES ('admin@admin', 'admin', 'admin', 'admin');
 - npm run dev
 ```
 
-1. Login
+4. Login
 
 - Email: admin@admin
 - Password: admin
