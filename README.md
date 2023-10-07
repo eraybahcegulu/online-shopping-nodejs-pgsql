@@ -10,12 +10,12 @@ USED TECHNOLOGIES
 
 1. edit .env
 
-        ```
-    DB_CONNECTION_STRING = postgresql://username:password@host:port/dbname[?paramspec]
+```
+DB_CONNECTION_STRING = postgresql://username:password@host:port/dbname[?paramspec]
 
-    e.g.
-    DB_CONNECTION_STRING = postgresql://postgres:1337@localhost:5432/app_database
-	      ```
+e.g.
+DB_CONNECTION_STRING = postgresql://postgres:1337@localhost:5432/app_database
+```
 
 
 
@@ -91,27 +91,17 @@ CREATE TABLE products (
 
 INSERT INTO admins (email, name, password, user_type)
 VALUES ('admin@admin', 'admin', 'admin', 'admin');
-	```
+```
 
 1. Packages, build and dev
 
-  ```
+```
 - npm install
 - npm run build
 - npm run dev
-	```
+```
 
 1. Login
 
 - Email: admin@admin
 - Password: admin
-=======
-* npm install
-* npm run build
-* npm run dev
->>>>>>> ca25509318b35c270ff22cb5092b2428446d5b9f
-=======
-* npm install
-* npm run build
-* npm run dev
->>>>>>> ca25509318b35c270ff22cb5092b2428446d5b9f
