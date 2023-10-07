@@ -6,7 +6,6 @@ USED TECHNOLOGIES
 - PostgreSQL
 - EJS
 - Bootstrap
-- GitHub
 
 
 1. Edit .env file
