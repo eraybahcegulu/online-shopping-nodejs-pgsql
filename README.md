@@ -1,6 +1,7 @@
 # pg-express-rest-api
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 USED TECHNOLOGIES
 - TypeScript
 - NodeJS ExpressJS
@@ -105,6 +106,11 @@ VALUES ('admin@admin', 'admin', 'admin', 'admin');
 
 - Email: admin@admin
 - Password: admin
+=======
+* npm install
+* npm run build
+* npm run dev
+>>>>>>> ca25509318b35c270ff22cb5092b2428446d5b9f
 =======
 * npm install
 * npm run build
