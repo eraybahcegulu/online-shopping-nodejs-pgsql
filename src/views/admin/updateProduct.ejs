@@ -23,11 +23,6 @@
                         <h1 class="mb-4">UPDATE PRODUCT</h1>
                         <form id="updateProductForm">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="<%= product.name %>" placeholder="Name" required>
-                            </div>
-
-                            <div class="mb-3">
                                 <select class="form-control" id="productType" name="productType" required>
                                     <option>
                                         <%= product.type %>
@@ -43,6 +38,10 @@
                             </div>
 
                             <div class="mb-3">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="<%= product.name %>" placeholder="Name" maxlength="25" required>
+                            </div>
+                            <div class="mb-3">
                                 <input type="number" class="form-control" id="price" name="price"
                                     pattern="[0-9]+(\.[0-9]+)?" value="<%= product.price %>" placeholder="Price"
                                     required>
@@ -50,7 +49,7 @@
 
                             <div class="mb-3">
                                 <textarea class="form-control" id="description" name="description"
-                                    placeholder="Description" required
+                                    placeholder="Description" maxlength="50" required
                                     style="resize: none;"><%= product.description %></textarea>
                             </div>
 
