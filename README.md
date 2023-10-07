@@ -1,7 +1,5 @@
 # pg-express-rest-api
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 USED TECHNOLOGIES
 - TypeScript
 - NodeJS ExpressJS
@@ -12,15 +10,16 @@ USED TECHNOLOGIES
 
 1. edit .env
 
-  ```
+        ```
     DB_CONNECTION_STRING = postgresql://username:password@host:port/dbname[?paramspec]
 
     e.g.
     DB_CONNECTION_STRING = postgresql://postgres:1337@localhost:5432/app_database
 	      ```
 
-2. Creating PostgreSQL tables
 
+
+1. Creating PostgreSQL tables
 ```
 CREATE TABLE admins (
     id serial PRIMARY KEY,
@@ -94,7 +93,7 @@ INSERT INTO admins (email, name, password, user_type)
 VALUES ('admin@admin', 'admin', 'admin', 'admin');
 	```
 
-3. Packages, build and dev
+1. Packages, build and dev
 
   ```
 - npm install
@@ -102,7 +101,7 @@ VALUES ('admin@admin', 'admin', 'admin', 'admin');
 - npm run dev
 	```
 
-4. Login
+1. Login
 
 - Email: admin@admin
 - Password: admin
