@@ -19,7 +19,7 @@ DB_CONNECTION_STRING = postgresql://postgres:1337@localhost:5432/app_database
 
 
 
-1. Creating PostgreSQL tables
+2. Creating PostgreSQL tables
 ```
 CREATE TABLE admins (
     id serial PRIMARY KEY,
