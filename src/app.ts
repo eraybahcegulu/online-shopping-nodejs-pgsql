@@ -197,6 +197,7 @@ CREATE TABLE products (
     id serial PRIMARY KEY,
     type character varying(255) COLLATE pg_catalog."default" NOT NULL,
     name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    quantity integer NOT NULL,
     price numeric(10,2) NOT NULL,
     description text COLLATE pg_catalog."default" NOT NULL
 );
