@@ -21,10 +21,10 @@ DB_CONNECTION_STRING = postgresql://postgres:1337@localhost:5432/app_database
 
 2. Creating PostgreSQL tables
 ```
-psql -h localhost -d your_database -U your_username -a -f migrations/tables.sql
+psql -h localhost -d your_database -U your_username -a -f create-tables.sql
 
 e.g
-psql -h localhost -d app_database -U postgres -a -f migrations/tables.sql
+psql -h localhost -d app_database -U postgres -a -f create-tables.sql
 ```
 
 3. Packages, build and dev
