@@ -2,7 +2,7 @@ import postgresClient from '../../../config/db';
 
 class ProductModel {
   public async getAdminProducts(): Promise<any[]> {
-    const result = await postgresClient.query('SELECT id, type, name, price, description FROM products');
+    const result = await postgresClient.query('SELECT id, type, name, price, quantity , description FROM products');
     return result.rows;
   }
 
@@ -11,10 +11,10 @@ class ProductModel {
     return result.rows;
   }
 
-  public async addProduct(type: string, name: string, price: number, description: string): Promise<any> {
+  public async addProduct(type: string, name: string, price: number, quantity:number, description: string): Promise<any> {
     const result = await postgresClient.query(
-      'INSERT INTO products (type, name, price, description) VALUES ($1, $2, $3, $4) RETURNING *',
-      [type, name, price, description]
+      'INSERT INTO products (type, name, price, quantity, description) VALUES ($1, $2, $3, $4 , $5) RETURNING *',
+      [type, name, price, quantity, description]
     );
 
     return result.rows[0];
@@ -25,10 +25,10 @@ class ProductModel {
     return result.rows[0];
   }
 
-  public async updateProduct(productId: string, name: string, productType: string, price: number, description: string): Promise<any> {
+  public async updateProduct(productId: string, name: string, productType: string, price: number, quantity: number, description: string): Promise<any> {
     const result = await postgresClient.query(
-      'UPDATE products SET name = $1, type = $2, price = $3, description = $4 WHERE id = $5 RETURNING *',
-      [name, productType, price, description, productId]
+      'UPDATE products SET name = $1, type = $2, price = $3, quantity = $4, description = $5 WHERE id = $6 RETURNING *',
+      [name, productType, price, quantity, description, productId]
     );
 
     return result.rows[0];

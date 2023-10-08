@@ -18,6 +18,9 @@ class CustomerCartModel {
 
       const addedToCartProduct = insertResult.rows[0];
       console.log('Added to cart:', addedToCartProduct);
+
+      await postgresClient.query('UPDATE products SET quantity = quantity - 1 WHERE id = $1', [productId]);
+
       return { success: true, message: 'Product successfully added to your cart', addedToCartProduct };
     } catch (error) {
       console.error('Error:', error);
@@ -40,7 +43,7 @@ class CustomerCartModel {
   public async removeCart(userId: number, cartId: number): Promise<any> {
     try {
       const result = await postgresClient.query('SELECT * FROM carts WHERE id = $1', [cartId]);
-
+      
       if (result.rows.length === 0) {
         return { error: 'Product not found' };
       }
@@ -54,6 +57,8 @@ class CustomerCartModel {
 
       const removedCartProduct = deleteResult.rows[0];
       console.log('Removed from cart:', removedCartProduct);
+
+      await postgresClient.query('UPDATE products SET quantity = quantity + 1 WHERE id = $1', [removedCartProduct.products_id]);
       return { success: true, message: 'Product successfully removed from your cart', removedCartProduct };
     } catch (error) {
       console.error('Error:', error);

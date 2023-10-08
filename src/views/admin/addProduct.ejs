@@ -42,6 +42,10 @@
                                     name="productPrice" placeholder="Price" required>
                             </div>
                             <div class="mb-3">
+                                <input type="number" step="1" class="form-control" id="productQuantity"
+                                    name="productQuantity" placeholder="Quantity" required>
+                            </div>
+                            <div class="mb-3">
                                 <textarea class="form-control" id="productDescription" name="productDescription"
                                     rows="3" placeholder="Description" maxlength="50" required
                                     style="resize: none;"></textarea>
@@ -65,6 +69,7 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Description</th>
                 </tr>
             </thead>
@@ -82,13 +87,16 @@
                                 <%= product.price %>
                             </td>
                             <td class="align-middle">
+                                <%= product.quantity %>
+                            </td>
+                            <td class="align-middle">
                                 <%= product.description %>
                             </td>
                         </tr>
                         <% }); %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="6" class="text-center">No products found.</td>
+                                    <td colspan="5" class="text-center">No products found.</td>
                                 </tr>
                                 <% } %>
             </tbody>
@@ -112,6 +120,7 @@
                     type: document.getElementById('productType').value,
                     name: document.getElementById('productName').value,
                     price: document.getElementById('productPrice').value,
+                    quantity: document.getElementById('productQuantity').value,
                     description: document.getElementById('productDescription').value,
                 }),
             })

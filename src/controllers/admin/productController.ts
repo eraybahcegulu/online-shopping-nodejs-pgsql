@@ -45,10 +45,10 @@ class ProductController {
           return res.redirect('/');
         }
     
-        const { type, name, price, description } = req.body;
+        const { type, name, price, quantity, description } = req.body;
     
         try {
-          const newProduct = await this.productModel.addProduct(type, name, price, description);
+          const newProduct = await this.productModel.addProduct(type, name, price, quantity, description);
     
           res.json({ newProduct });
         } catch (error: any) {
@@ -95,10 +95,10 @@ class ProductController {
         }
     
         const productId = req.params.id;
-        const { name, productType, price, description } = req.body;
+        const { name, productType, price, quantity, description } = req.body;
     
         try {
-          const updatedProduct = await this.productModel.updateProduct(productId, name, productType, price, description);
+          const updatedProduct = await this.productModel.updateProduct(productId, name, productType, price, quantity, description);
     
           if (updatedProduct) {
             res.json({ message: 'Product updated successfully', updatedProduct });

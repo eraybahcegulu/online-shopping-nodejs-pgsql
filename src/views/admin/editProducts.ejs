@@ -25,6 +25,7 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
@@ -46,6 +47,9 @@
                                 <%= product.price %>
                             </td>
                             <td class="align-middle">
+                                <%= product.quantity %>
+                            </td>
+                            <td class="align-middle">
                                 <%= product.description %>
                             </td>
                             <td class="align-middle">
@@ -62,7 +66,7 @@
                         <% }); %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="6" class="text-center">No products found.</td>
+                                    <td colspan="7" class="text-center">No products found.</td>
                                 </tr>
                                 <% } %>
             </tbody>

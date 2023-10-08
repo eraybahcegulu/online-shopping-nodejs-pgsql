@@ -27,9 +27,18 @@
             visibility: hidden;
         }
 
+        .productQuantitySpan{
+            visibility: hidden;
+        }
+
         .card:hover .btn-add-cart {
             visibility: visible;
         }
+
+        .card:hover .productQuantitySpan {
+            visibility: visible;
+        }
+
     </style>
 
 </head>
@@ -110,10 +119,19 @@
                                         <%= product.price %>
                                     </p>
                                     <button type="button" class="btn btn-primary btn-sm btn-add-cart"
-                                        onclick="addCart('<%= product.id %>')">Add Cart</button>
+                                        onclick="addCart('<%= product.id %>')" <%= product.quantity === 0 ? 'disabled' : '' %>
+                                    >Add Cart</button>
                                 </div>
+                                <% if (product.quantity > 1) { %>
+                                    <span class="productQuantitySpan"> Last <%= product.quantity %> Products</span>
+                                <% } else if (product.quantity === 1) { %>
+                                    <span style="color:red;" class="productQuantitySpan"> Last  <i class="fa-solid fa-1 fa-shake" style="color: #ff0000;"></i>  Product </span>
+                                <% } else { %>
+                                    <span style="color:red" class="productQuantitySpan"> product not available </span>
+                                <% } %>
                             </div>
                         </div>
+                        
                         <% }); %>
                             <% } else { %>
                                 <p>No products found.</p>
