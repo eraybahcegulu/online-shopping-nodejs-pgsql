@@ -38,7 +38,6 @@
         .card:hover .productQuantitySpan {
             visibility: visible;
         }
-
     </style>
 
 </head>
@@ -56,17 +55,22 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" style="color: rgb(58, 83, 230);" href="#">All Products</a>
+                        <a class="nav-link" style="color: rgb(58, 83, 230);" href="/customerHome">All Products</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color:white;" href='#'>Graphics Cards</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color:white;" href='#'>Processors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color:white" href="#">Motherboards</a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Product Types
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <% if (productTypes.length> 0) { %>
+                                <% productTypes.forEach(types=> { %>
+                          <li><a class="dropdown-item" href="/customerHome/productType/<%= types.type%>"><%= types.type %></a></li>
+                          <% }); %>
+                          <% } else { %>
+                            <li><a class="dropdown-item disabled"  >No product types found.</a></li>
+                            <% } %>
+                        </ul>
+                      </li>
                 </ul>
                 <ul class="navbar-nav ms-auto me-auto">
                     <li class="nav-item">
@@ -187,6 +191,7 @@
                     console.error('Error:', error);
                 });
         }
+        
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
