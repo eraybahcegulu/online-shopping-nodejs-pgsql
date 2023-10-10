@@ -1,4 +1,4 @@
-# pg-express-rest-api
+# pg-express-mvc-app
 
 USED TECHNOLOGIES
 - TypeScript
