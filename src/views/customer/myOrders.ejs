@@ -29,7 +29,7 @@
                         </h3>
                         <p class="card-text">Order Date: <%= order.order_date %>
                         </p>
-                        <p class="card-text">Order Amount: <%= order.order_amount %>
+                        <p class="card-text">Order Amount: <%= order.order_amount %>₺
                         </p>
                         <% if (order.items.length> 0) { %>
                             <h4 class="card-title">Order Details:</h4>
@@ -67,7 +67,7 @@
                                                                                 <%= groupedItem.products_description %>
                                                                             </td>
                                                                             <td class="align-middle">
-                                                                                <%= groupedItem.products_price %>
+                                                                                <%= groupedItem.products_price %>₺
                                                                             </td>
                                                                             <td class="align-middle">
                                                                                 <img src="../../uploads/<%= groupedItem.products_image %>" alt="<%= groupedItem.products_name %> Image" style="max-width: 300px; max-height: 300px;">
