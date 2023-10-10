@@ -77,7 +77,7 @@
                                                 <%= item.products_description %>
                                             </p>
                                             <p class="card-text">
-                                                <%= item.products_price %>
+                                                <%= item.products_price %>₺
                                             </p>
                                             <% orderAmount +=parseFloat(item.products_price.replace(',', '' )); %>
                                                 <button type="button" class="btn btn-sm btn-remove-cart"
@@ -90,7 +90,7 @@
                                 <% }); %>
                         </div>
 
-                        <p style="color: rgb(13, 48, 201)" class="mt-3"> Order Amount: <%= orderAmount.toFixed(2) %>
+                        <p style="color: rgb(13, 48, 201)" class="mt-3"> Order Amount: <%= orderAmount.toFixed(2) %>₺
                         </p>
                         <button class="btn btn-primary" onclick="order()">Now Order</button>
 
