@@ -20,8 +20,8 @@ class CustomerOrderModel {
 
       for (const item of cartItems.rows) {
         await postgresClient.query(
-          'INSERT INTO order_items (order_id, products_id, products_type, products_name, products_price, products_description) VALUES ($1, $2, $3, $4, $5, $6)',
-          [orderId, item.products_id, item.products_type, item.products_name, item.products_price, item.products_description]
+          'INSERT INTO order_items (order_id, products_id, products_type, products_name, products_price, products_description, products_image) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+          [orderId, item.products_id, item.products_type, item.products_name, item.products_price, item.products_description, item.products_image]
         );
       }
 

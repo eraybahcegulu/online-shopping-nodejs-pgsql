@@ -2,7 +2,7 @@ import postgresClient from '../../../config/db';
 
 class CustomerHomeModel {
   public async getProducts(): Promise<any[]> {
-    const result = await postgresClient.query('SELECT id, type, name, price, quantity, description FROM products');
+    const result = await postgresClient.query('SELECT id, type, name, price, quantity, description, image FROM products');
     return result.rows;
   }
 
@@ -12,7 +12,7 @@ class CustomerHomeModel {
   }
 
   public async getProductsByType(productType: string): Promise<any[]> {
-    const result = await postgresClient.query('SELECT id, type, name, quantity, price, description FROM products WHERE type = $1', [productType]);
+    const result = await postgresClient.query('SELECT id, type, name, quantity, price, description, image FROM products WHERE type = $1', [productType]);
     return result.rows;
   }
 

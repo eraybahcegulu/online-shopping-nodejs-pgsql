@@ -27,6 +27,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Description</th>
+                    <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -53,6 +54,9 @@
                                 <%= product.description %>
                             </td>
                             <td class="align-middle">
+                                <img src="../../uploads/<%= product.image %>" alt="<%= product.name %> Image" style="max-width: 300px; max-height: 300px;">
+                              </td>
+                            <td class="align-middle">
                                 <div class="btn-group" role="group" style="display:flex; justify-content:space-between">
                                     <button type="button" class="btn btn-primary btn-block btn-sm"
                                         onclick="productUpdate('<%=product.id%>')"> <i
@@ -66,7 +70,7 @@
                         <% }); %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="7" class="text-center">No products found.</td>
+                                    <td colspan="8" class="text-center">No products found.</td>
                                 </tr>
                                 <% } %>
             </tbody>

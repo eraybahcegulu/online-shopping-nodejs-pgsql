@@ -110,5 +110,6 @@
     "src/**/*.ts",
     "src/**/**/*.ejs",
     "src/app.ts",
+    "src/**/*jpg",
   ]
 }

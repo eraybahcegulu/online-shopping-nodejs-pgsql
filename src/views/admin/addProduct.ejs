@@ -50,6 +50,10 @@
                                     rows="3" placeholder="Description" maxlength="50" required
                                     style="resize: none;"></textarea>
                             </div>
+                            <div class="mb-3">
+                                <label for="productImage" class="form-label">Product Image:</label>
+                                <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Add</button>
                             <a href="/adminHome" class="btn btn-secondary">Back to Admin Home</a>
                         </form>
@@ -71,6 +75,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Description</th>
+                    <th>Image</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,11 +97,14 @@
                             <td class="align-middle">
                                 <%= product.description %>
                             </td>
+                            <td class="align-middle">
+                                <img src="../../uploads/<%= product.image %>" alt="<%= product.name %> Image" style="max-width: 300px; max-height: 300px;">
+                              </td>
                         </tr>
                         <% }); %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="5" class="text-center">No products found.</td>
+                                    <td colspan="6" class="text-center">No products found.</td>
                                 </tr>
                                 <% } %>
             </tbody>
@@ -108,21 +116,31 @@
     <script>
         var productAddMessage = document.getElementById("productAddMessage");
 
-        document.querySelector('form').addEventListener('submit', function (event) {
+            document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault(); // Formdaki submiti engelliyoruz ve fetch api gerçekleştiriyoruz
+
+            var formData = new FormData();
+            var productImageInput = document.getElementById('productImage');
+            formData.append('productImage', productImageInput.files[0]);
+
+
+
+            var productTypeInput = document.getElementById('productType')
+            var productNameInput = document.getElementById('productName')
+            var productPriceInput = document.getElementById('productPrice')
+            var productQuantityInput = document.getElementById('productQuantity')
+            var productDescriptionInput = document.getElementById('productDescription')
+
+            formData.append('productType', productTypeInput.value);
+            formData.append('productName', productNameInput.value);
+            formData.append('productPrice', productPriceInput.value);
+            formData.append('productQuantity', productQuantityInput.value);
+            formData.append('productDescription', productDescriptionInput.value);
+
 
             fetch('/productAdd', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    type: document.getElementById('productType').value,
-                    name: document.getElementById('productName').value,
-                    price: document.getElementById('productPrice').value,
-                    quantity: document.getElementById('productQuantity').value,
-                    description: document.getElementById('productDescription').value,
-                }),
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {

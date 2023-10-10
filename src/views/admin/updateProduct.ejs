@@ -21,7 +21,19 @@
                 <div class="card">
                     <div class="card-body">
                         <h1 class="mb-4">UPDATE PRODUCT</h1>
-                        <form id="updateProductForm">
+                        <form action="/updateProduct/<%= product.id %>" method="patch">
+                            <div class="mb-3">
+                                <img src="../../uploads/<%= product.image %>" alt="<%= product.name%> Image"
+                                    style="max-width: 300px; max-height: 300px;">
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label for="productImage" class="form-label">Update Product Image:</label>
+                                <input type="file" class="form-control" id="productImage" name="productImage" required
+                                    accept="image/*">
+                            </div>
+
                             <div class="mb-3">
                                 <select class="form-control" id="productType" name="productType" required>
                                     <option>
@@ -36,7 +48,6 @@
                                                 <% }); %>
                                 </select>
                             </div>
-
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="<%= product.name %>" placeholder="Name" maxlength="25" required>
@@ -58,7 +69,7 @@
                                     style="resize: none;"><%= product.description %></textarea>
                             </div>
 
-                            <button type="button" class="btn btn-primary" onclick="updateProduct()">Update
+                            <button type="submit" class="btn btn-primary">Update
                                 Product</button>
                             <a href="/adminProducts" class="btn btn-secondary">Back to Products</a>
                         </form>
@@ -72,23 +83,34 @@
     </div>
 
     <script>
-        function updateProduct() {
-            const updatedData = {
-                name: document.getElementById('name').value,
-                productType: document.getElementById('productType').value,
-                price: document.getElementById('price').value,
-                quantity: document.getElementById('quantity').value,
-                description: document.getElementById('description').value
-            };
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Formdaki submiti engelliyoruz ve fetch api gerçekleştiriyoruz
+
+            var formData = new FormData();
+            var productImageInput = document.getElementById('productImage');
+            formData.append('productImage', productImageInput.files[0]);
+
+            var productTypeInput = document.getElementById('productType')
+            var productNameInput = document.getElementById('name')
+            var productPriceInput = document.getElementById('price')
+            var productQuantityInput = document.getElementById('quantity')
+            var productDescriptionInput = document.getElementById('description')
+
+
+            formData.append('productType', productTypeInput.value);
+            formData.append('name', productNameInput.value);
+            formData.append('price', productPriceInput.value);
+            formData.append('quantity', productQuantityInput.value);
+            formData.append('description', productDescriptionInput.value);
 
             const productId = "<%= product.id %>";
 
+
+
             fetch(`/updateProduct/${productId}`, {
                 method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedData),
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {
@@ -105,7 +127,7 @@
                 .catch(error => {
                     console.error('Error updating product:', error);
                 });
-        }
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 

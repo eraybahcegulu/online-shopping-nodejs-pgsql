@@ -12,8 +12,8 @@ class CustomerCartModel {
       const selectedProduct = productResult.rows[0];
 
       const insertResult = await postgresClient.query(
-        'INSERT INTO carts (customer_id, products_id, products_type, products_name, products_price, products_description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [userId, selectedProduct.id, selectedProduct.type, selectedProduct.name, selectedProduct.price, selectedProduct.description]
+        'INSERT INTO carts (customer_id, products_id, products_type, products_name, products_price, products_description, products_image) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [userId, selectedProduct.id, selectedProduct.type, selectedProduct.name, selectedProduct.price, selectedProduct.description, selectedProduct.image]
       );
 
       const addedToCartProduct = insertResult.rows[0];

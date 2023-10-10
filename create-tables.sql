@@ -13,7 +13,8 @@ CREATE TABLE carts (
     products_type character varying(255) COLLATE pg_catalog."default" NOT NULL,
     products_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     products_price numeric(10,2) NOT NULL,
-    products_description text COLLATE pg_catalog."default" NOT NULL
+    products_description text COLLATE pg_catalog."default" NOT NULL,
+    products_image character varying(255) COLLATE pg_catalog."default" NOT NULL
 );
 
 CREATE TABLE customers (
@@ -46,6 +47,7 @@ CREATE TABLE order_items (
     products_type character varying(255) COLLATE pg_catalog."default" NOT NULL,
     products_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     products_price numeric(10,2) NOT NULL,
+    products_image character varying(255) COLLATE pg_catalog."default" NOT NULL,
     products_description text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT order_items_order_id_fkey FOREIGN KEY (order_id)
         REFERENCES public.orders (id) MATCH SIMPLE
@@ -64,7 +66,8 @@ CREATE TABLE products (
     name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     quantity integer NOT NULL,
     price numeric(10,2) NOT NULL,
-    description text COLLATE pg_catalog."default" NOT NULL
+    description text COLLATE pg_catalog."default" NOT NULL,
+    image character varying(255) COLLATE pg_catalog."default" NOT NULL
 );
 
 INSERT INTO admins (email, name, password, user_type)

@@ -119,6 +119,8 @@
                                                                                                 Product Type</th>
                                                                                             <th class="align-middle">
                                                                                                 Product Description</th>
+                                                                                                <th class="align-middle">
+                                                                                                    Product Image</th>
                                                                                             <th class="align-middle">
                                                                                                 Price</th>
                                                                                             <th class="align-middle">
@@ -155,27 +157,30 @@
                                                                                                                                 {
                                                                                                                                 %>
                                                                                                                                 <tr>
-                                                                                                                                    <td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.products_id
                                                                                                                                             %>
                                                                                                                                     </td>
-                                                                                                                                    <td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.products_name
                                                                                                                                             %>
                                                                                                                                     </td>
-                                                                                                                                    <td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.products_type
                                                                                                                                             %>
                                                                                                                                     </td>
-                                                                                                                                    <td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.products_description
                                                                                                                                             %>
                                                                                                                                     </td>
                                                                                                                                     <td>
+                                                                                                                                        <img src="../../uploads/<%= groupedItem.products_image %>" alt="<%= groupedItem.products_name %> Image" style="max-width: 300px; max-height: 300px;">
+                                                                                                                                    </td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.products_price
                                                                                                                                             %>
                                                                                                                                     </td>
-                                                                                                                                    <td>
+                                                                                                                                    <td class="align-middle">
                                                                                                                                         <%= groupedItem.count
                                                                                                                                             %>
                                                                                                                                     </td>
